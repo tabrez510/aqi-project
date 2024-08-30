@@ -1,0 +1,33 @@
+.aqi-very-good {
+  background-color: #90ee90 !important;
+  color: #000 !important;
+}
+
+.aqi-good {
+  background-color: #add8e6 !important;
+  color: #000 !important;
+}
+
+.aqi-fair {
+  background-color: #ffff99 !important;
+  color: #000 !important;
+}
+
+.aqi-poor {
+  background-color: #ffcc66 !important;
+  color: #000 !important;
+}
+
+.aqi-very-poor {
+  background-color: #ff6666 !important;
+  color: #fff !important;
+}
+
+.aqi-hazardous {
+  background-color: #800000 !important;
+  color: #fff !important;
+}
+
+.cursor {
+    cursor: pointer;
+}

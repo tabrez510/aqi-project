@@ -30,4 +30,3 @@ module.exports = {
   getAQIByCity,
   getAQIDetails
 };
-// http://localhost:3000/api/aqi/station/india%2Fbangalore%2Fpeenya?token=87b8a9ddf0b023dafb068f951075fd5640cc2751
