@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAQIByCity } from "../features/aqiThunk";
 import {
@@ -18,11 +18,6 @@ const AQIList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data, status, error } = useSelector((state) => state.aqi);
-  const [city, setCity] = useState("bangalore");
-
-  useEffect(() => {
-    dispatch(fetchAQIByCity(city));
-  }, [dispatch, city]);
 
   const handleClick = (stationUrl) => {
     navigate(`/details/${encodeURIComponent(stationUrl)}`);
@@ -30,8 +25,9 @@ const AQIList = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setCity(e.target.cityInput.value);
+    const city = e.target.cityInput.value;
     dispatch(fetchAQIByCity(city));
+    e.target.cityInput.value = '';
   };
 
   const getAQIColorClass = (aqi) => {
@@ -54,23 +50,26 @@ const AQIList = () => {
     return "Hazardous";
   };
 
-  if (status === "loading") {
-    return <Spinner animation="border" />;
-  }
-
   if (status === "failed") {
     return <Alert variant="danger">{error.message}</Alert>;
   }
 
   return (
     <div>
+
+      <h1 className="mb-3">Welcome to AQI Tracker</h1>
+      <p className="mb-4">
+        Monitor real-time air quality across different cities. Find the current
+        AQI, understand the dominant pollutants, and get detailed forecasts to
+        stay safe and healthy.
+      </p>
+
       <Form onSubmit={handleSearch} className="mb-3">
         <Row className="align-items-center">
           <Col lg={10} className="mb-3 mb-lg-0">
             <FloatingLabel controlId="cityInput" label="Search by City">
               <Form.Control
                 type="text"
-                defaultValue={city}
                 placeholder="Enter city name"
               />
             </FloatingLabel>
@@ -83,22 +82,34 @@ const AQIList = () => {
         </Row>
       </Form>
 
-      <ListGroup>
-        {data.map((item) => (
-          <ListGroup.Item
-            key={item.station.url}
-            className={`d-flex justify-content-between align-items-center cursor ${getAQIColorClass(
-              item.aqi
-            )}`}
-            onClick={() => handleClick(item.station.url)}
-          >
-            <span>{item.station.name}</span>
-            <span>
-              {getAQIText(item.aqi)} - {item.aqi}
-            </span>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      {status !== "loading" && data.length > 0 && (
+        <p className="mb-3">
+          Found {data.length} results. Click on a station to see full details.
+        </p>
+      )}
+
+      {status !== "loading" ? (
+        <ListGroup>
+          { data.map((item) => (
+            <ListGroup.Item
+              key={item.station.url}
+              className={`d-flex justify-content-between align-items-center cursor ${getAQIColorClass(
+                item.aqi
+              )}`}
+              onClick={() => handleClick(item.station.url)}
+            >
+              <span>{item.station.name}</span>
+              <span>
+                {getAQIText(item.aqi)} - {item.aqi}
+              </span>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      ) : (
+        <div className="d-flex justify-content-center align-items-center vh-100">
+          <Spinner animation="border" />
+        </div>
+      )}
     </div>
   );
 };

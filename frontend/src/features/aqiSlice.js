@@ -13,9 +13,11 @@ const aqiSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAQIByCity.pending, (state) => {
+        state.error  = null;
         state.status = "loading";
       })
       .addCase(fetchAQIByCity.fulfilled, (state, action) => {
+        state.error = null;
         state.status = "succeeded";
         state.data = action.payload;
       })
@@ -24,9 +26,11 @@ const aqiSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(fetchAQIDetails.pending, (state) => {
+        state.error = null;
         state.status = "loading";
       })
       .addCase(fetchAQIDetails.fulfilled, (state, action) => {
+        state.error = null;
         state.status = "succeeded";
         state.details = action.payload;
       })

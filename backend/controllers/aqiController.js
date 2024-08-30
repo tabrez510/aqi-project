@@ -17,7 +17,6 @@ const getAQIByCity = async (req, res) => {
 
 const getAQIDetails = async (req, res) => {
     const stationUrl = decodeURIComponent(req.params.stationUrl);
-    console.log(stationUrl);
     try {
       const detailedAqiData = await aqiService.fetchDetailedAQIData(stationUrl);
       res.status(200).json(detailedAqiData);

@@ -18,7 +18,6 @@ const fetchAQIData = async (city) => {
   const cachedData = aqiCache.get(cacheKey);
 
   if (cachedData) {
-    console.log("cached");
     return cachedData;
   }
 
