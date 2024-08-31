@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAQIDetails } from "../features/aqiThunk";
+import { fetchAQIDetails } from "../../features/aqiThunk";
 import { useParams } from "react-router-dom";
 import { Card, Spinner, Alert, Row, Col } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
-import "./AQI.css";
+import "../AQI.css";
 
 const AQIDetails = () => {
   const { stationUrl } = useParams();
@@ -41,7 +41,7 @@ const AQIDetails = () => {
       labels: forecastData.map((item) => item.day),
       datasets: [
         {
-          label: `Daily ${key.toUpperCase()} Levels`,
+          label: `Daily ${key.toUpperCase()} Levels (Average)`,
           backgroundColor: "rgba(75,192,192,0.4)",
           borderColor: "rgba(75,192,192,1)",
           borderWidth: 1,
@@ -67,13 +67,13 @@ const AQIDetails = () => {
 
   return details ? (
     <Card className="mb-3">
-      <Card.Header className={`${getAQIColorClass(details.data.aqi)}`}>
+      <Card.Header className={`${getAQIColorClass(details.data.aqi)}`} style={{fontFamily: "'Playfair Display', serif"}}>
         <h4>{details.data.city.name}</h4>
       </Card.Header>
       <Card.Body>
         <Row className="mb-3">
           <Col md={6}>
-            <Card.Text as="h5">
+            <Card.Text as="h5" style={{fontFamily: "'Playfair Display', serif", fontWeight: '800'}}>
               AQI: {details.data.aqi}{" "}
               <span
                 className={`p-2 ms-2 ${getAQIColorClass(details.data.aqi)}`}
@@ -135,7 +135,7 @@ const AQIDetails = () => {
             </Card.Text>
           </Col>
         </Row>
-        <h5>Forecast Data</h5>
+        <h5 style={{fontFamily: "'Playfair Display', serif", fontWeight: '800'}}>Forecast Data</h5>
         <Row>
           {details.data.forecast.daily && (
             <Col xl={6} className="mb-4">

@@ -9,11 +9,16 @@ const aqiSlice = createSlice({
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    formError(state, action) {
+      state.error = action.payload;
+      state.status = "failed";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAQIByCity.pending, (state) => {
-        state.error  = null;
+        state.error = null;
         state.status = "loading";
       })
       .addCase(fetchAQIByCity.fulfilled, (state, action) => {
@@ -23,7 +28,7 @@ const aqiSlice = createSlice({
       })
       .addCase(fetchAQIByCity.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       .addCase(fetchAQIDetails.pending, (state) => {
         state.error = null;
@@ -36,9 +41,10 @@ const aqiSlice = createSlice({
       })
       .addCase(fetchAQIDetails.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });
 
+export const aqiActions = aqiSlice.actions;
 export default aqiSlice.reducer;

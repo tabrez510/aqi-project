@@ -31,16 +31,19 @@ const fetchAQIData = async (city) => {
 
     const data = response.data;
 
+    if(data.data.length === 0){
+      throw new Error("Invalid city name");
+    }
+
     if (data.status === "error") {
       throw new Error(data.data || "Failed to fetch AQI data");
     }
 
     aqiCache.set(cacheKey, data);
-
     return data;
   } catch (error) {
     console.error(`Error fetching AQI data for ${city}:`, error.message);
-    throw error;
+    throw new Error(`Error fetching AQI data for ${city}: ${error.message}`);
   }
 };
 
@@ -66,14 +69,15 @@ const fetchDetailedAQIData = async (stationUrl) => {
     }
 
     aqiCache.set(cacheKey, data);
-
     return data;
   } catch (error) {
     console.error(
       `Error fetching detailed AQI data for ${stationUrl}:`,
       error.message
     );
-    throw error;
+    throw new Error(
+      `Error fetching detailed AQI data for ${stationUrl}: ${error.message}`
+    );
   }
 };
 

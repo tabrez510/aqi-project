@@ -1,20 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AQIList from "./components/AQIList";
-import AQIDetails from "./components/AQIDetails";
+import AQIListPage from "./pages/aqiListPage";
+import AQIDetailsPage from "./pages/aqiDetailsPage";
 
 const App = () => {
   return (
-
-      <Router>
-        <div className="container mt-4">
+    <Router>
+      <div className="container mt-4">
         <Routes>
-          <Route path="/" element={<AQIList />} />
-          <Route path="/details/:stationUrl" element={<AQIDetails />} />
+          <Route path="/" element={<AQIListPage />} />
+          <Route path="/details/:stationUrl" element={<AQIDetailsPage />} />
         </Routes>
-        </div>
-      </Router>
-
+      </div>
+    </Router>
   );
 };
 
